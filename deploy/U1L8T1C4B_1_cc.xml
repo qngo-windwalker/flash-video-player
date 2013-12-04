@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<tt xmlns="http://www.w3.org/2006/04/ttaf1" xmlns:tts="http://www.w3.org/2006/04/ttaf1#styling" xml:lang="en">
+  <head>
+    <styling>
+    	<style xml:id="defaultStyle" tts:color="white" tts:textAlign="center" tts:fontSize="19" tts:fontFamily="Arial, Helvetica, sans-serif" tts:backgroundColor="#000000CC" />
+	</styling>
+  </head>
+  <body>
+    <div xml:lang="en">
+      <p style="defaultStyle" begin="00:00:00.25" dur="00:00:03.75">ONLINE USER: As long as you don't drink alone... you're in no danger of having a problem.</p>
+      <p style="defaultStyle" begin="00:00:04.00" dur="00:00:11.00">RAY: People with alcoholism often drink alone, but that doesn't mean you can prevent it by sticking to the buddy system. Drinking alone is an indicator of a problem, not the cause it...</p> 
+      <p style="defaultStyle" begin="00:00:15.00" dur="00:00:07.00">RAY: People having a heart attack have chest pains, but no one would say, "You can prevent a heart attack by not having chest pains."</p>
+    </div>
+  </body>
+</tt>
