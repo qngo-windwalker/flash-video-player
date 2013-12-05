@@ -47,5 +47,11 @@ package com.player
 			model.volume = number;
 			model.setState('volumeChanged');
 		}
+
+		public function enableDebugMode() : void 
+		{
+			model.debugMode = true;
+			model.setState('debugMode');
+		}
 	}
 }

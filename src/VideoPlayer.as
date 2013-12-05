@@ -1,16 +1,19 @@
 ﻿package  
 {
+	import ru.kozlovskij.external.ExternalInterfaceExtended;
+
 	import com.player.PlayerController;
 	import com.player.PlayerModel;
 	import com.player.views.PlayerView;
 
+	import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
 	import flash.external.ExternalInterface;
+	import flash.system.Security;
 	import flash.utils.Timer;
 
 	public class VideoPlayer extends MovieClip 
@@ -21,9 +24,17 @@
 
 		public function VideoPlayer()
 		{
+//			Security.showSettings(SecurityPanel.SETTINGS_MANAGER );
+//			Security.loadPolicyFile("xmlsocket://foo.com:414");
+			Security.allowDomain("*");
+			Security.allowInsecureDomain("*");
+			
+// 			ExternalInterface.addCallback("sendToActionScript", receivedFromJavaScript);
+ 			ExternalInterfaceExtended.addCallback("sendToActionScript", receivedFromJavaScript);
+ 			
 			stage.align = StageAlign.TOP_LEFT;
  			stage.scaleMode = StageScaleMode.NO_SCALE;
- 
+ 			
 			model = new PlayerModel(this);
 			model.addEventListener(Event.CHANGE, onModelChange);
 			
@@ -36,7 +47,7 @@
 		
 		public function init() : void
 		{
-			controller.transitionIn(); 
+			controller.transitionIn();
 		}
 		
 		private function onModelChange(event : Event) : void 
@@ -45,8 +56,8 @@
 			{	
 				case "videoCompleted" :
 				if (ExternalInterface.available) {
-                	ExternalInterface.call("sendToJavaScript", 'videoCompleted');
-            	}
+                	ExternalInterface.call(model.onCompleteCallback, model.videoSrc);
+					}
 				break;
 			}
 				
@@ -79,7 +90,11 @@
 		
 		private function receivedFromJavaScript(value:String):void {
             model.debugOutput.appendText("JavaScript says: " + value + "\n");
-        }
+            if (value == "debug")
+			{
+				controller.enableDebugMode();
+			}
+		}
         private function checkJavaScriptReady():Boolean {
             var isReady:Boolean = ExternalInterface.call("isReady");
             return isReady;
