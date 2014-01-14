@@ -29,12 +29,12 @@ package com.player.views
 		{
 			super(aModel, aController);
 			
-			ccBtn = MovieClip(Library.createAsset(aModel.mainTimeline, "ClosedCaptionBtn"));
-			ccBtn.buttonMode = true;
-			ccBtn.addEventListener(MouseEvent.CLICK, onCcClick);
-			
 			vidControllBar = MovieClip(Library.createAsset(aModel.mainTimeline, "VideoController"));
 			vidControllBar.alpha = 0;
+			
+			ccBtn = MovieClip(vidControllBar.getChildByName("ccBtn_mc"));
+			ccBtn.buttonMode = true;
+			ccBtn.addEventListener(MouseEvent.CLICK, onCcClick);
 			
 			playPauseBtn = MovieClip(vidControllBar.getChildByName("playPause_mc"));
 			playPauseBtn.mouseEnabled = true;
@@ -56,7 +56,6 @@ package com.player.views
 			
 			addChild(vidControllBar);
 		}
-
 
 		override public function update(event : Event = null) : void
 		{

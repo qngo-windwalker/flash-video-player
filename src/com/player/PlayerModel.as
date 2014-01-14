@@ -1,5 +1,7 @@
 package com.player
 {
+	import qhn.utils.Library;
+
 	import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
 	import flash.events.Event;
@@ -27,7 +29,8 @@ package com.player
 		public var volume : Number = .7;
 		
 		public var debugOutput : TextField = new TextField(); 
-		
+		public var controllerBarHeight : Number;
+
 		public function PlayerModel(mainTimeline : MovieClip)
 		{
 			this.mainTimeline = mainTimeline;
@@ -44,6 +47,9 @@ package com.player
 			}
 				stageWidth = mainTimeline.stage.stageWidth;
 				stageHeight = mainTimeline.stage.stageHeight;
+				
+			var vidControllBar : MovieClip = MovieClip(Library.createAsset(mainTimeline, "VideoController"));
+			controllerBarHeight = vidControllBar.height;	
 		}
 
 		private function getFlashVars() : void 

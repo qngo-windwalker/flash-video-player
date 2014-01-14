@@ -1,37 +1,61 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="Windwalker">
-
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		<title>videoPlayer</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style type="text/css" media="screen">
+		html, body { height:100%; background-color: #000000;}
+		body { margin:0; padding:0; overflow:hidden; }
+		#flashContent { width:100%; height:100%; }
+		</style>
+		<script type="text/javascript">
+	        var jsReady = false;
+	        function isReady() {
+	        	console.log('isReady');
+	            return jsReady;
+	        }
+	        function pageInit() {
+	            jsReady = true;
+	            document.forms["form1"].output.value += "\n" + "JavaScript is ready.\n";
+	        }
+	        function thisMovie(movieName) {
+	            if (navigator.appName.indexOf("Microsoft") != -1) {
+	                return window[movieName];
+	            } else {
+	                return document[movieName];
+	            }
+	        }
+	        function toFlash(value) {
+	        	console.log(thisMovie("videoPlayer"));
+	            thisMovie("videoPlayer").sendToActionScript(value);
+	        }
+	        function sendToJavaScript(value) {
+	            console.log('sendToJavascript', value);
+	        }
+	        
+    	</script>
 	</head>
 	<body>
 		<div id="flashContent">
 			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="videoPlayer" width="500" height="375" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab">
-				<param name="quality" value="high" />
-				<param name="movie" value="deploy/videoPlayer.swf" />
-                <param name="bgcolor" value="#ffffff" />
-                <param name="play" value="true" />
-                <param name="loop" value="true" />
-                <param name="wmode" value="window" />
-                <param name="scale" value="showall" />
-                <param name="menu" value="true" />
-                <param name="devicefont" value="false" />
-                <param name="salign" value="" />
-                <param name="allowScriptAccess" value="always" />
-		 
-		         
-		         
-
-		         
-	     	</object>
+		         <param name="movie" value="deploy/videoPlayer.swf" />
+		         <param name="quality" value="high" />
+		         <param name="bgcolor" value="#869ca7" />
+		         <param name="allowScriptAccess" value="always" />
+		         <param name="flashVars" value="completeCallback=videoCompleted&vidSrc=http://www.helpexamples.com/flash/video/caption_video.flv&ccSrc=" />
 		         <!-- 
 		         Ex:
 		         <param name="flashVars" value="completeCallback=videoCompleted&vidSrc=http://www.helpexamples.com/flash/video/caption_video.flv&ccSrc=somthing.xml&debug=true&root=dir" />
 
 		         -->
+		         <embed src="deploy/videoPlayer.swf" quality="high" bgcolor="#869ca7"
+		             width="500" height="375" name="videoPlayer" align="middle"
+		             play="true" loop="false" quality="high" allowScriptAccess="always"
+		             type="application/x-shockwave-flash"
+		             pluginspage="http://www.macromedia.com/go/getflashplayer"
+		             flashVars="completeCallback=videoCompleted&vidSrc=http://www.helpexamples.com/flash/video/caption_video.flv" >
+		         </embed>
+	     	</object>
 
 		</div>
 	</body>

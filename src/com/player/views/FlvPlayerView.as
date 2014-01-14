@@ -54,7 +54,6 @@ package com.player.views
 				case "transitionIn" :
 					addChild(player);
 					TweenLite.to(player, .2, {autoAlpha : 1});
-					
 				break;
 				
 				case "transitionOut" :
@@ -152,7 +151,7 @@ package com.player.views
         private function onStageResize(event: Event = null) : void
 		{
 			player.width = PlayerModel(model).stageWidth;
-			player.height = PlayerModel(model).stageHeight - 27; // minus the controlBar's height
+			player.height = PlayerModel(model).stageHeight - PlayerModel(model).controllerBarHeight; // minus the controlBar's height
 		}
 	}
 }
