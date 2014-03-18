@@ -6,9 +6,9 @@
 	import com.player.PlayerModel;
 	import com.player.views.PlayerView;
 
-	import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
+	import flash.display.StageDisplayState;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -33,8 +33,8 @@
 // 			ExternalInterface.addCallback("sendToActionScript", receivedFromJavaScript);
  			ExternalInterfaceExtended.addCallback("sendToActionScript", receivedFromJavaScript);
  			
-			stage.align = StageAlign.TOP_LEFT;
  			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
  			
 			model = new PlayerModel(this);
 			model.addEventListener(Event.CHANGE, onModelChange);

@@ -29,7 +29,9 @@ package com.player.views
 			
 			tf.background = true;
 			tf.backgroundColor = 0xFFFFFF;
-			tf.autoSize = TextFieldAutoSize.LEFT;
+//			tf.autoSize = TextFieldAutoSize.LEFT;
+			tf.width = 200;
+			tf.height = 150; 
 			tf.border = true;
 			addChild(tf);                             // add the TextField to the DisplayList so that it appears on the Stage
 		}

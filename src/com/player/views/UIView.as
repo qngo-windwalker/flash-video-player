@@ -9,7 +9,9 @@ package com.player.views
 	import com.player.PlayerModel;
 
 	import flash.display.MovieClip;
+	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
 
 	/**
@@ -24,6 +26,8 @@ package com.player.views
 		private var controlBarBkgd : MovieClip;
 		
 		private var ccBtn : MovieClip;
+		
+		private var fullScreen : MovieClip;
 
 		public function UIView(aModel : PlayerModel, aController : Object = null)
 		{
@@ -45,16 +49,33 @@ package com.player.views
 			volumeBtn.addEventListener(MouseEvent.CLICK, volumeBtnClick);
 			volumeBtn.buttonMode = true;
 			
+			fullScreen = MovieClip(vidControllBar.getChildByName("fullScreen_mc"));
+			fullScreen.buttonMode = true;
+			fullScreen.addEventListener(MouseEvent.CLICK, onFullScreenClick);
+			
 			controlBarBkgd = MovieClip(vidControllBar.getChildByName("controlBarBkgd_mc"));
 			seekBar = MovieClip(vidControllBar.getChildByName("seekBar_mc"));
 			
 			aModel.seekBar = seekBar;
+			
+			aModel.mainTimeline.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenRedraw);
 			
 			onStageResize();
 			
 			vidControllBar.addChild(ccBtn);
 			
 			addChild(vidControllBar);
+		}
+
+		private function fullScreenRedraw(event : FullScreenEvent) : void 
+		{	
+			onStageResize();
+//			vidControllBar.y = PlayerModel(model).stageHeight - vidControllBar.height;
+//			trace('PlayerModel(model).stageHeight: ' + (PlayerModel(model).stageHeight));
+//			trace('fullSceenHeight', PlayerModel(model).mainTimeline.stage.fullScreenHeight);
+//			vidControllBar.y = 200;
+//			vidControllBar.x = 100;
+//			trace('vidControllBar: ' + (vidControllBar));
 		}
 
 		override public function update(event : Event = null) : void
@@ -141,11 +162,31 @@ package com.player.views
 			}
 		}
 		
+		private function onFullScreenClick(event : MouseEvent) : void 
+		{
+			switch (fullScreen.currentFrameLabel)
+			{
+				case "OFF" : 
+					fullScreen.gotoAndStop('ON');
+					PlayerController(controller).enableFullScreen();
+				break;
+				
+				case "ON" :
+					fullScreen.gotoAndStop('OFF');
+					PlayerController(controller).disableFullScreen();
+				break;
+			}
+		}
+		
 		private function onStageResize(event: Event = null) : void
 		{
-			vidControllBar.y = PlayerModel(model).stageHeight - vidControllBar.height;
-			controlBarBkgd.width = PlayerModel(model).stageWidth;
-			ccBtn.x = controlBarBkgd.width - ccBtn.width;
+			var rootStage : Stage = Stage(PlayerModel(model).mainTimeline.stage);
+			vidControllBar.y = rootStage.stageHeight - vidControllBar.height;
+			controlBarBkgd.width = rootStage.stageWidth;
+			
+			var padding: int = 5;
+			fullScreen.x = controlBarBkgd.width - fullScreen.width - padding;
+			ccBtn.x = fullScreen.x - ccBtn.width - padding;
 			volumeBtn.x = ccBtn.x - volumeBtn.width; 
 			seekBar.width = volumeBtn.x - seekBar.x - 26;  
 		}

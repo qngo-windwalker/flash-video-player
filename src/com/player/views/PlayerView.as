@@ -30,8 +30,8 @@ package com.player.views
 			add(flvPlayerView);	
 			add(debugView);
 				
-			addChild(uiView);
 			addChild(flvPlayerView);
+			addChild(uiView);
 		}
 				
 		override public function update(event : Event = null) : void

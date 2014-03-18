@@ -39,6 +39,7 @@ package com.player.views
 			player.skinBackgroundAlpha = 1;
 			player.align = VideoAlign.CENTER;
 			player.scaleMode = VideoScaleMode.MAINTAIN_ASPECT_RATIO;
+			player.fullScreenTakeOver = false;
 //			player.scaleMode = VideoScaleMode.NO_SCALE
 			player.addEventListener(VideoEvent.COMPLETE, onVideoComplete);
 			
@@ -88,9 +89,9 @@ package com.player.views
 				case "volumeChanged" :
 					player.volume = PlayerModel(model).volume;
 				break;
-			}	
+			}
 		}
-		
+
 		private function playVideo() : void 
 		{
 			if (!player.source){

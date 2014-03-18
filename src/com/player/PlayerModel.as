@@ -4,8 +4,10 @@ package com.player
 
 	import flash.display.LoaderInfo;
 	import flash.display.MovieClip;
+	import flash.display.StageDisplayState;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
 	import flash.text.TextField;
 
 	/**
@@ -84,6 +86,16 @@ package com.player
 		}
 		
 		private function update() : void{
+			
+			switch (currentState){
+				case "fullScreenOn" :
+//					var screenRectangle:Rectangle = new Rectangle(0, 0, 200, 250); 
+//            		mainTimeline.stage.fullScreenSourceRect = screenRectangle; 
+					mainTimeline.stage.displayState = StageDisplayState.FULL_SCREEN;
+					stageWidth = mainTimeline.stage.stageWidth;
+					stageHeight = mainTimeline.stage.stageHeight;
+					break;
+			}
 			dispatchEvent(new Event(Event.CHANGE));	
 		}
 	}

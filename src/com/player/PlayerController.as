@@ -1,5 +1,6 @@
 package com.player 
 {
+	import flash.display.StageDisplayState;
 
 	/**
 	 * @author qngo
@@ -52,6 +53,18 @@ package com.player
 		{
 			model.debugMode = true;
 			model.setState('debugMode');
+		}
+
+		public function enableFullScreen() : void 
+		{
+			model.mainTimeline.stage.displayState = StageDisplayState.FULL_SCREEN;
+			model.setState('stageResize');
+		}
+
+		public function disableFullScreen() : void 
+		{
+			model.mainTimeline.stage.displayState = StageDisplayState.NORMAL;
+			model.setState('stageResize');
 		}
 	}
 }
