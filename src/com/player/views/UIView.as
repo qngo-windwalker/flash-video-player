@@ -59,7 +59,6 @@ package com.player.views
 
 		override public function update(event : Event = null) : void
 		{
-		
 			super.update(event);
 			
 			switch (PlayerModel(model).currentState)

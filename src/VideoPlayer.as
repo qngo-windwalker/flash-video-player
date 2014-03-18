@@ -28,6 +28,7 @@
 //			Security.loadPolicyFile("xmlsocket://foo.com:414");
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
+//			Security.loadPolicyFile("crossdomain.xml"); // This will use http to request the file. 
 			
 // 			ExternalInterface.addCallback("sendToActionScript", receivedFromJavaScript);
  			ExternalInterfaceExtended.addCallback("sendToActionScript", receivedFromJavaScript);
