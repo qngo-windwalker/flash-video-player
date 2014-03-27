@@ -15,7 +15,7 @@ package com.player.views
 	import qhn.mvc.view.ComponentView;
 
 	import com.player.PlayerController;
-	import com.player.PlayerModel;
+	import com.player.model.PlayerModel;
 
 	import flash.events.Event;
 
@@ -26,7 +26,6 @@ package com.player.views
 	{
 		private var player : FLVPlayback;
 		private var caption : FLVPlaybackCaptioning;
-		
 
 		public function FlvPlayerView(aModel : PlayerModel, aController : PlayerController = null)
 		{
@@ -35,6 +34,8 @@ package com.player.views
 			TweenPlugin.activate([AutoAlphaPlugin]);
 			
 			player = new FLVPlayback();
+//			player.isLive = aModel.deliveryMethod == 'streaming' ? true : false; // false = Progressive download
+//			trace('player.isLive: ' + (player.isLive)); 
 			player.skinBackgroundColor = 0x000000;
 			player.skinBackgroundAlpha = 1;
 			player.align = VideoAlign.CENTER;

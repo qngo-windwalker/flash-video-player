@@ -1,14 +1,13 @@
 ﻿package  
 {
-	import ru.kozlovskij.external.ExternalInterfaceExtended;
+//	import ru.kozlovskij.external.ExternalInterfaceExtended;
 
 	import com.player.PlayerController;
-	import com.player.PlayerModel;
+	import com.player.model.PlayerModel;
 	import com.player.views.PlayerView;
 
 	import flash.display.MovieClip;
 	import flash.display.StageAlign;
-	import flash.display.StageDisplayState;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.TimerEvent;
@@ -31,7 +30,7 @@
 //			Security.loadPolicyFile("crossdomain.xml"); // This will use http to request the file. 
 			
 // 			ExternalInterface.addCallback("sendToActionScript", receivedFromJavaScript);
- 			ExternalInterfaceExtended.addCallback("sendToActionScript", receivedFromJavaScript);
+// 			ExternalInterfaceExtended.addCallback("sendToActionScript", receivedFromJavaScript);
  			
  			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
@@ -43,28 +42,25 @@
 			view = new PlayerView(model, controller);
 			addChild(view);
 			
-			init(); 
-		}
-		
-		public function init() : void
-		{
 			controller.transitionIn();
 		}
-		
+
 		private function onModelChange(event : Event) : void 
 		{
 			switch (PlayerModel(model).currentState)
 			{	
 				case "videoCompleted" :
-				if (ExternalInterface.available) {
-                	ExternalInterface.call(model.onCompleteCallback, model.videoSrc);
-					}
+//				if (ExternalInterface.available) {
+//                	ExternalInterface.call(model.onCompleteCallback, model.videoSrc);
+//					}
 				break;
 			}
 				
 			view.update(event);
 		}
 		
+		/*
+		 * 
 		private function toHtml() : void
 		{
 			if (ExternalInterface.available) {
@@ -108,6 +104,7 @@
                 Timer(event.target).stop();
             }
         }
+		 */
        
 	}
 }

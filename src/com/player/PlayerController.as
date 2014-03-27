@@ -1,5 +1,6 @@
 package com.player 
 {
+	import com.player.model.PlayerModel;
 	import flash.display.StageDisplayState;
 
 	/**
@@ -65,6 +66,11 @@ package com.player
 		{
 			model.mainTimeline.stage.displayState = StageDisplayState.NORMAL;
 			model.setState('stageResize');
+		}
+
+		public function updatePlaybackTime(time : Number) : void 
+		{
+			model.playbackTime = time;
 		}
 	}
 }

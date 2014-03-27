@@ -2,10 +2,10 @@ package com.player.views
 {
 	import qhn.mvc.view.ComponentView;
 
-	import com.player.PlayerModel;
+	import com.player.model.PlayerModel;
 
 	import flash.events.Event;
-	import flash.external.ExternalInterface;
+//	import flash.external.ExternalInterface;
 	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 
@@ -66,7 +66,7 @@ package com.player.views
 				for (keyStr in paramObj) 
 				{
 					valueStr = String(paramObj[keyStr]);
-					ExternalInterface.call("sendToJavaScript", keyStr);
+//					ExternalInterface.call("sendToJavaScript", keyStr);
 					tf.appendText("\t" + keyStr + ":\t" + valueStr + "\n");  // add each variable name and value to the TextField named tf
 				}
 			} 

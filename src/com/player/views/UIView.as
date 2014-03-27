@@ -6,7 +6,7 @@ package com.player.views
 	import qhn.utils.Library;
 
 	import com.player.PlayerController;
-	import com.player.PlayerModel;
+	import com.player.model.PlayerModel;
 
 	import flash.display.MovieClip;
 	import flash.display.Stage;
@@ -57,7 +57,7 @@ package com.player.views
 			seekBar = MovieClip(vidControllBar.getChildByName("seekBar_mc"));
 			
 			aModel.seekBar = seekBar;
-			
+			aModel.addEventListener(PlayerModel.TIME, onTime);
 			aModel.mainTimeline.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenRedraw);
 			
 			onStageResize();
@@ -162,6 +162,11 @@ package com.player.views
 			}
 		}
 		
+		private function onTime(event : Event) : void 
+		{
+			var pos : Number = PlayerModel(model).playbackTime;
+		}
+		
 		private function onFullScreenClick(event : MouseEvent) : void 
 		{
 			switch (fullScreen.currentFrameLabel)
@@ -188,7 +193,7 @@ package com.player.views
 			fullScreen.x = controlBarBkgd.width - fullScreen.width - padding;
 			ccBtn.x = fullScreen.x - ccBtn.width - padding;
 			volumeBtn.x = ccBtn.x - volumeBtn.width; 
-			seekBar.width = volumeBtn.x - seekBar.x - 26;  
+			seekBar.width = volumeBtn.x - seekBar.x - 26;
 		}
 	}
 }
