@@ -9,6 +9,7 @@ package com.player.views
 	import com.player.model.PlayerModel;
 
 	import flash.display.MovieClip;
+	import flash.display.Shape;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.FullScreenEvent;
@@ -28,10 +29,18 @@ package com.player.views
 		private var ccBtn : MovieClip;
 		
 		private var fullScreen : MovieClip;
+		
+		private var playBtn : MovieClip;
+		
 
 		public function UIView(aModel : PlayerModel, aController : Object = null)
 		{
 			super(aModel, aController);
+			
+			playBtn = MovieClip(Library.createAsset(aModel.mainTimeline, "PlayBtn"));
+			playBtn.addEventListener(MouseEvent.CLICK, onPlayClick);
+			playBtn.buttonMode = true;
+			playBtn.alpha = 0;
 			
 			vidControllBar = MovieClip(Library.createAsset(aModel.mainTimeline, "VideoController"));
 			vidControllBar.alpha = 0;
@@ -60,11 +69,18 @@ package com.player.views
 			aModel.addEventListener(PlayerModel.TIME, onTime);
 			aModel.mainTimeline.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenRedraw);
 			
-			onStageResize();
 			
 			vidControllBar.addChild(ccBtn);
 			
 			addChild(vidControllBar);
+			addChild(playBtn);
+			
+			onStageResize();
+		}
+
+		private function onPlayClick(event : MouseEvent) : void 
+		{
+			PlayerController(controller).playVideo();
 		}
 
 		private function fullScreenRedraw(event : FullScreenEvent) : void 
@@ -85,6 +101,7 @@ package com.player.views
 			switch (PlayerModel(model).currentState)
 			{
 				case "transitionIn" :
+					TweenLite.to(playBtn, .5, {autoAlpha : 1});
 					TweenLite.to(vidControllBar, .5, {autoAlpha : 1, delay: .5});
 				break;
 				
@@ -93,6 +110,7 @@ package com.player.views
 				break;
 				
 				case "playVideo" :
+					playBtn.visible = false;
 					playPauseBtn.gotoAndStop("PAUSE");
 				break;
 				
@@ -185,7 +203,9 @@ package com.player.views
 		
 		private function onStageResize(event: Event = null) : void
 		{
+			
 			var rootStage : Stage = Stage(PlayerModel(model).mainTimeline.stage);
+			
 			vidControllBar.y = rootStage.stageHeight - vidControllBar.height;
 			controlBarBkgd.width = rootStage.stageWidth;
 			
@@ -194,6 +214,9 @@ package com.player.views
 			ccBtn.x = fullScreen.x - ccBtn.width - padding;
 			volumeBtn.x = ccBtn.x - volumeBtn.width; 
 			seekBar.width = volumeBtn.x - seekBar.x - 26;
+			
+			playBtn.x = int((rootStage.stageWidth - playBtn.width) / 2);
+			playBtn.y = int(((rootStage.stageHeight - vidControllBar.height)- playBtn.height) / 2);
 		}
 	}
 }
