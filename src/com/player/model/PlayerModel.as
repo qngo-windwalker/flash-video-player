@@ -7,9 +7,10 @@ package com.player.model
 	import flash.display.StageDisplayState;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-//	import flash.external.ExternalInterface;
-	import flash.net.URLRequest;
+	import flash.external.ExternalInterface;
 	import flash.text.TextField;
+
+	//	import flash.external.ExternalInterface;
 
 	/**
 	 * @author qngo
@@ -19,31 +20,26 @@ package com.player.model
 		public static const TIME : String = "time";
 		public var mainTimeline : MovieClip;
 		public var currentState : String;
-//		public var videoSrc : String = "http://www.helpexamples.com/flash/video/caption_video.flv"; 
-		public var videoSrc : String = "media/howto.flv"; 
-		public var captionSrc : String = "media/closed_caption.xml"; 
 		public var seekBar : MovieClip;
 		public var isStandAlone : Boolean;
-		public var flashVars : Object;
-		public var debugMode : Boolean;
 		public var stageHeight : Number;
 		public var stageWidth : Number;
-		public var root : String; 
-		public var onCompleteCallback : String = 'videoCompleted';
 		public var volume : Number = .7;
 		public var debugOutput : TextField = new TextField(); 
 		public var controllerBarHeight : Number;
-		// progressiveDownload or streaming. This dictates which View to use.
-//		public var deliveryMethod : String = "progressiveDownload";		
-		public var deliveryMethod : String = "streaming";
+		
+		public var flashVarsObj : FlashVarsObj = new FlashVarsObj();
 		
 		private var _playbackTime : Number;
-		public var hasCC : Boolean = true;
+		public var playbackPercent : Number;
 
 		public function PlayerModel(mainTimeline : MovieClip)
 		{
 			this.mainTimeline = mainTimeline;
-			
+		}
+
+		public function init() : void 
+		{
 			if (mainTimeline.root.parent && mainTimeline.root.parent == mainTimeline.stage) 
 			{
   				// Standalone
@@ -51,37 +47,26 @@ package com.player.model
 				
 				mainTimeline.stage.addEventListener(Event.RESIZE, onStageResize);
 				
-				getFlashVars();
+				flashVarsObj.getFlashVars(LoaderInfo(mainTimeline.root.loaderInfo));
 			}
 			
 			stageWidth = mainTimeline.stage.stageWidth;
 			stageHeight = mainTimeline.stage.stageHeight;
 				
 			var vidControllBar : MovieClip = MovieClip(Library.createAsset(mainTimeline, "VideoController"));
-			controllerBarHeight = vidControllBar.height;	
+			controllerBarHeight = vidControllBar.height;
+				
+			dispatchEvent(new Event(Event.COMPLETE));
 		}
 
-//		public function init() : void 
-//		{
-//			dispatchEvent(new Event(Event.COMPLETE));
-//		}
-
-		private function getFlashVars() : void 
-		{
-			// by querying the LoaderInfo object, set the value of paramObj to the 
-			// to the value of the variable named myVariable passed from FlashVArs in the HTML
-			flashVars = LoaderInfo(mainTimeline.root.loaderInfo).parameters;
-			
-			debugMode = flashVars.debug;
-			
-			videoSrc = flashVars.vidSrc ? flashVars.vidSrc : videoSrc;
-			captionSrc = flashVars.ccSrc ? flashVars.ccSrc : captionSrc;
-			root = flashVars.root ? flashVars.root : root;
-			onCompleteCallback = flashVars.completeCallback ? flashVars.completeCallback : onCompleteCallback;
-			deliveryMethod = flashVars.deliveryMethod ? flashVars.deliveryMethod : deliveryMethod;
-
-			// set the text of the text instance named text1. Use the toString() method
-			// to convert the value from an object to a string so it can be used in the text field
+		
+		private function callToHTML(method : String, data : *) : void {
+			if (flashVarsObj.enableExternalInterface)
+			{
+				if (ExternalInterface.available) {
+	        		ExternalInterface.call(method, data);
+				}
+			}
 		}
 		
         	/*
@@ -146,10 +131,14 @@ package com.player.model
 		// Only for ProgressiveDownload View
 		public function set playbackTime(value : Number) : void {
 			_playbackTime = value;
+			trace('_playbackTime: ' + (_playbackTime));
 			dispatchEvent(new Event(PlayerModel.TIME));
 		}
 
 		private function update() : void{
+			
+			callToHTML(flashVarsObj.onSateChange, currentState);
+			
 			switch (currentState){
 				case "fullScreenOn" :
 //					var screenRectangle:Rectangle = new Rectangle(0, 0, 200, 250); 
@@ -160,6 +149,12 @@ package com.player.model
 					break;
 			}
 			dispatchEvent(new Event(Event.CHANGE));	
+		}
+
+		public function setPlayheadTime(playheadTime : Number, percent : Number, length : Number) : void 
+		{
+			var str : String = 'second=' + playheadTime + '&percent=' + percent + '&length=' + length;
+			callToHTML(flashVarsObj.onPlaybackPosition, str);
 		}
 	}
 }

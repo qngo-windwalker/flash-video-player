@@ -33,7 +33,10 @@ package com.player.views
 			tf.width = 200;
 			tf.height = 150; 
 			tf.border = true;
-			addChild(tf);                             // add the TextField to the DisplayList so that it appears on the Stage
+			
+			if (aModel.flashVarsObj.debugMode){
+				addChild(tf);                             // add the TextField to the DisplayList so that it appears on the Stage
+			}
 		}
 
 		private function onTextChange(event : Event) : void 
@@ -53,15 +56,15 @@ package com.player.views
 			}
 			
 			tf.appendText("isStandAlone:" + pModel.isStandAlone +"\n");
-			tf.appendText("videoSrc:" + pModel.videoSrc + "\n");
-			tf.appendText("CC:" + pModel.captionSrc + "\n");
+			tf.appendText("videoSrc:" + pModel.flashVarsObj.videoSrc + "\n");
+			tf.appendText("CC:" + pModel.flashVarsObj.captionSrc + "\n");
 			tf.appendText("params:" + "\n");
 			
 			try
 			{
 				var keyStr : String;
 				var valueStr : String;
-				var paramObj : Object = pModel.flashVars;
+				var paramObj : Object = pModel.flashVarsObj.flashVars;
 				
 				for (keyStr in paramObj) 
 				{

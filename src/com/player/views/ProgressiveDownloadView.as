@@ -39,7 +39,7 @@ package com.player.views
 			
 			TweenPlugin.activate([AutoAlphaPlugin]);
 			
-			videoURL = aModel.videoSrc;
+			videoURL = aModel.flashVarsObj.videoSrc;
 			
 			aModel.mainTimeline.stage.addEventListener(Event.RESIZE, onStageResize);
 			

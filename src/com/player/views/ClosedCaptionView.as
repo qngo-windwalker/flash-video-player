@@ -54,11 +54,11 @@ package com.player.views
 			
 			addChild(txtField);
 			
-			if (aModel.captionSrc)
+			if (aModel.flashVarsObj.captionSrc)
 			{
 				closedCaptionHelper = new ClosedCaptionHelper();
 				closedCaptionHelper.addEventListener(Event.COMPLETE, onCCLoadComplete);
-				closedCaptionHelper.load(new URLRequest(aModel.captionSrc));
+				closedCaptionHelper.load(new URLRequest(aModel.flashVarsObj.captionSrc));
 			} else {
 				onCCLoadComplete();
 			}

@@ -1,7 +1,9 @@
 package com.player 
 {
 	import com.player.model.PlayerModel;
+
 	import flash.display.StageDisplayState;
+	import flash.external.ExternalInterface;
 
 	/**
 	 * @author qngo
@@ -12,6 +14,15 @@ package com.player
 		
 		public function PlayerController(m : PlayerModel){
 			model = m;
+			
+			// Caution with naming callback function. Might cause conflict if name too general. 
+			if (model.flashVarsObj.enableExternalInterface){
+				ExternalInterface.addCallback("playVideo", playVideo); 
+//				ExternalInterface.addCallback("stopVideo", pause); 
+				ExternalInterface.addCallback("pauseVideo", pauseVideo);
+				ExternalInterface.addCallback("setVolume", setVolume);
+				ExternalInterface.addCallback("updatePlaybackTime", gotoPosition);
+			}
 		}
 
 		public function transitionIn() : void 
@@ -52,7 +63,7 @@ package com.player
 
 		public function enableDebugMode() : void 
 		{
-			model.debugMode = true;
+			model.flashVarsObj.debugMode = true;
 			model.setState('debugMode');
 		}
 
@@ -71,6 +82,17 @@ package com.player
 		public function updatePlaybackTime(time : Number) : void 
 		{
 			model.playbackTime = time;
+		}
+		
+		public function gotoPosition(percent : Number) : void{
+			trace('percent: ' + (percent));
+			if (percent <= 0) {
+				percent = 0;
+			} else if (percent >= 100 ) {
+				percent = 100;
+			}
+			model.playbackPercent = percent;
+			model.setState('positionChanged');
 		}
 	}
 }

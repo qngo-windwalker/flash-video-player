@@ -37,6 +37,7 @@ package com.player.views
 		{
 			super(aModel, aController);
 			
+			
 			playBtn = MovieClip(Library.createAsset(aModel.mainTimeline, "PlayBtn"));
 			playBtn.addEventListener(MouseEvent.CLICK, onPlayClick);
 			playBtn.buttonMode = true;
@@ -69,11 +70,12 @@ package com.player.views
 			aModel.addEventListener(PlayerModel.TIME, onTime);
 			aModel.mainTimeline.stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenRedraw);
 			
-			
 			vidControllBar.addChild(ccBtn);
 			
-			addChild(vidControllBar);
-			addChild(playBtn);
+			if (aModel.flashVarsObj.controlBarVisible){
+				addChild(vidControllBar);
+				addChild(playBtn);
+			}
 			
 			onStageResize();
 		}

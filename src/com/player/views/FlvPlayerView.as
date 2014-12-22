@@ -26,10 +26,14 @@ package com.player.views
 	{
 		private var player : FLVPlayback;
 		private var caption : FLVPlaybackCaptioning;
+		
+		private var playerModel : PlayerModel;
 
 		public function FlvPlayerView(aModel : PlayerModel, aController : PlayerController = null)
 		{
 			super(aModel, aController);
+			
+			playerModel = aModel;
 			
 			TweenPlugin.activate([AutoAlphaPlugin]);
 			
@@ -43,10 +47,20 @@ package com.player.views
 			player.fullScreenTakeOver = false;
 //			player.scaleMode = VideoScaleMode.NO_SCALE
 			player.addEventListener(VideoEvent.COMPLETE, onVideoComplete);
+			player.addEventListener(VideoEvent.PLAYHEAD_UPDATE, onPlayheadUpdate);
 			
 			onStageResize();
 		}
-		
+
+		private function onPlayheadUpdate(event : VideoEvent) : void 
+		{
+			var playheadTime : Number = player.playheadTime;
+			var percent : Number = player.playheadPercentage;
+			var length : Number = player.totalTime;
+			
+			playerModel.setPlayheadTime(playheadTime, percent, length);
+		}
+
 		override public function update(event : Event = null) : void
 		{
 			super.update(event);
@@ -90,34 +104,48 @@ package com.player.views
 				case "volumeChanged" :
 					player.volume = PlayerModel(model).volume;
 				break;
+				
+				case "positionChanged" :
+//					player.playheadTime = PlayerModel(model).playback;
+					player.seekPercent(PlayerModel(model).playbackPercent);
+				break;
 			}
 		}
 
 		private function playVideo() : void 
 		{
+			var playerModel : PlayerModel = PlayerModel(model);
+			
 			if (!player.source){
-				player.source = PlayerModel(model).videoSrc;
-				player.volume = PlayerModel(model).volume;
+				player.source = playerModel.flashVarsObj.videoSrc;
+				player.volume = playerModel.volume;
 				
-				// A little clean up.
-				if (caption) {
-					caption.showCaptions = false;
-					removeChild(caption);
+				if (playerModel.flashVarsObj.captionSrc){
+					addCaption();
 				}
 				
-				caption = new FLVPlaybackCaptioning();
-				caption.flvPlayback = player;
-				caption.source = PlayerModel(model).captionSrc;
-				caption.showCaptions = false;
-	            caption.autoLayout = false;
-	            caption.addEventListener(Event.OPEN, onCaptionOpen);
-	            caption.addEventListener(Event.COMPLETE, onCaptionComplete);
-	            caption.addEventListener(CaptionChangeEvent.CAPTION_CHANGE, onCaptionChange);
-	            caption.addEventListener(CaptionTargetEvent.CAPTION_TARGET_CREATED, onCaptionTargetCreated);
-				addChild(caption);
 			} else {
 				player.play();
 			}
+		}
+		
+		private function addCaption() : void {
+			// A little clean up.
+			if (caption) {
+				caption.showCaptions = false;
+				removeChild(caption);
+			}
+			
+			caption = new FLVPlaybackCaptioning();
+			caption.flvPlayback = player;
+			caption.source = PlayerModel(model).flashVarsObj.captionSrc;
+			caption.showCaptions = false;
+            caption.autoLayout = false;
+            caption.addEventListener(Event.OPEN, onCaptionOpen);
+            caption.addEventListener(Event.COMPLETE, onCaptionComplete);
+            caption.addEventListener(CaptionChangeEvent.CAPTION_CHANGE, onCaptionChange);
+            caption.addEventListener(CaptionTargetEvent.CAPTION_TARGET_CREATED, onCaptionTargetCreated);
+			addChild(caption);
 		}
 		
 		private function onVideoComplete(event : VideoEvent) : void 

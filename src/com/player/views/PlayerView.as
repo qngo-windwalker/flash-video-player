@@ -28,7 +28,7 @@ package com.player.views
 		{
 			super(aModel, aController);
 			
-			videoView = aModel.deliveryMethod == "progressiveDownload" ? new ProgressiveDownloadView(aModel, aController) : new FlvPlayerView(aModel, aController);
+			videoView = aModel.flashVarsObj.deliveryMethod == "progressiveDownload" ? new ProgressiveDownloadView(aModel, aController) : new FlvPlayerView(aModel, aController);
 			debugView = new DebugView(aModel, aController);
 			uiView = new UIView(aModel, aController);
 			
@@ -56,7 +56,7 @@ package com.player.views
 		{
 			super.update(event);
 			
-			if (PlayerModel(model).debugMode)
+			if (PlayerModel(model).flashVarsObj.debugMode)
 			{
 				addChild(debugView);
 			} else {

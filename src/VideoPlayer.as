@@ -1,5 +1,6 @@
 ﻿package  
 {
+	import flash.utils.setTimeout;
 //	import ru.kozlovskij.external.ExternalInterfaceExtended;
 
 	import com.player.PlayerController;
@@ -36,13 +37,20 @@
 			stage.align = StageAlign.TOP_LEFT;
  			
 			model = new PlayerModel(this);
+			model.addEventListener(Event.COMPLETE, onModelComplete);
 			model.addEventListener(Event.CHANGE, onModelChange);
-			
+			model.init();
+		}
+
+		private function onModelComplete(event : Event) : void 
+		{
             controller = new PlayerController(model);
 			view = new PlayerView(model, controller);
 			addChild(view);
 			
 			controller.transitionIn();
+			
+//			setTimeout(controller.gotoPosition, 1000, 3000); // Testing
 		}
 
 		private function onModelChange(event : Event) : void 
