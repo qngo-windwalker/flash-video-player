@@ -16,6 +16,7 @@ package com.player.model
 		public var videoSrc : String = "media/howto.flv"; 
 //		public var captionSrc : String = "media/closed_caption.xml"; 
 		public var captionSrc : String; 
+		public var closedCaptionEnable : Boolean; 
 		// progressiveDownload or streaming. This dictates which View to use.
 //		public var deliveryMethod : String = "progressiveDownload";		
 		public var deliveryMethod : String = "streaming";
@@ -36,6 +37,9 @@ package com.player.model
 			deliveryMethod = flashVars.deliveryMethod ? flashVars.deliveryMethod : deliveryMethod;
 			enableExternalInterface = flashVars.enableExternalInterface == 'true' ? flashVars.enableExternalInterface : enableExternalInterface;
 			controlBarVisible = flashVars.controlBarVisible == 'false' ? false : controlBarVisible;
+			if (flashVars.closedCaptionEnable){
+				closedCaptionEnable = flashVars.closedCaptionEnable == 'true' ? true : false;
+			}
 		}
 	}
 }

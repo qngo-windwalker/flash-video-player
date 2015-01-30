@@ -21,7 +21,9 @@ package com.player
 //				ExternalInterface.addCallback("stopVideo", pause); 
 				ExternalInterface.addCallback("pauseVideo", pauseVideo);
 				ExternalInterface.addCallback("setVolume", setVolume);
+				ExternalInterface.addCallback("gotoPercent", gotoPercent);
 				ExternalInterface.addCallback("updatePlaybackTime", gotoPosition);
+				ExternalInterface.addCallback("enableClosedCaption", enableClosedCaption);
 			}
 		}
 
@@ -45,14 +47,23 @@ package com.player
 			model.setState("videoCompleted");
 		}
 
-		public function enableClosedCaption() : void 
+		/**
+		 * @param value : String so that ExternalInterface call can be used.
+		 */
+		public function enableClosedCaption(value : String = 'true') : void 
 		{
-			model.setState('closedCaptionOn');
+			if (value == 'true'){
+				model.showClosedCaption = true;
+			} else if (value == 'false'){
+				model.showClosedCaption = false;
+			}
+			model.setState('closedCaptionStateChange');
 		}
 
 		public function disableClosedCaption() : void 
 		{
-			model.setState('closedCaptionOff');
+			model.showClosedCaption = false;
+			model.setState('closedCaptionStateChange');
 		}
 
 		public function setVolume(number : Number) : void 
@@ -85,6 +96,17 @@ package com.player
 		}
 		
 		public function gotoPosition(percent : Number) : void{
+			trace('percent: ' + (percent));
+			if (percent <= 0) {
+				percent = 0;
+			} else if (percent >= 100 ) {
+				percent = 100;
+			}
+			model.playbackPercent = percent;
+			model.setState('positionChanged');
+		}
+		
+		public function gotoPercent(percent : Number) : void{
 			trace('percent: ' + (percent));
 			if (percent <= 0) {
 				percent = 0;

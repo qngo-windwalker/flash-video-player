@@ -24,7 +24,8 @@ package com.player.model
 		public var isStandAlone : Boolean;
 		public var stageHeight : Number;
 		public var stageWidth : Number;
-		public var volume : Number = .7;
+		public var volume : Number = 1;
+		public var showClosedCaption : Boolean = false;
 		public var debugOutput : TextField = new TextField(); 
 		public var controllerBarHeight : Number;
 		
@@ -55,6 +56,8 @@ package com.player.model
 				
 			var vidControllBar : MovieClip = MovieClip(Library.createAsset(mainTimeline, "VideoController"));
 			controllerBarHeight = vidControllBar.height;
+			
+			showClosedCaption = flashVarsObj.closedCaptionEnable;
 				
 			dispatchEvent(new Event(Event.COMPLETE));
 		}

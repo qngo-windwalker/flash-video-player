@@ -80,21 +80,14 @@ package com.player.views
 				case "playVideo" :
 					playVideo();
 					player.seekBar = PlayerModel(model).seekBar;
+					checkClosedCaption();
 				break;
 				case "pauseVideo" :
 					player.pause();
 				break;
 				
-				case "closedCaptionOn" :
-					if (caption) {
-						caption.showCaptions = true;
-					}
-				break;
-				
-				case "closedCaptionOff" :
-					if (caption) {
-						caption.showCaptions = false;
-					}
+				case "closedCaptionStateChange" :
+					checkClosedCaption();
 				break;
 				
 				case "stageResize" :
@@ -109,6 +102,16 @@ package com.player.views
 //					player.playheadTime = PlayerModel(model).playback;
 					player.seekPercent(PlayerModel(model).playbackPercent);
 				break;
+			}
+		}
+
+		private function checkClosedCaption() : void
+		{
+			trace('caption: ' + (caption));
+			if (caption) 
+			{
+				caption.showCaptions = PlayerModel(model).showClosedCaption;
+				trace('caption.showCaptions: ' + (caption.showCaptions));
 			}
 		}
 
@@ -166,7 +169,7 @@ package com.player.views
 		private function onCaptionComplete(event : Event) : void 
 		{
 			// This is important. You can only set it to false once the caption is loaded completely
-			caption.showCaptions = false;
+			caption.showCaptions = PlayerModel(model).showClosedCaption;
 		}
 
 		private function onCaptionOpen(event : Event) : void 

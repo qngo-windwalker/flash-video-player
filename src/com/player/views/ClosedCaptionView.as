@@ -89,12 +89,8 @@ package com.player.views
 //					TweenLite.to(player, .5, {autoAlpha : 0});
 				break;
 				
-				case "closedCaptionOn" :
-					this.visible = true;
-				break;
-				
-				case "closedCaptionOff" :
-					this.visible = false;
+				case "closedCaptionStateChange" :
+					this.visible = PlayerModel(model).showClosedCaption;
 				break;
 				
 				case "stageResize" :
@@ -102,6 +98,8 @@ package com.player.views
 				break;
 				
 				case "playVideo" :
+					// checks it 
+					this.visible = PlayerModel(model).showClosedCaption;
 				break;
 				case "pauseVideo" :
 				break;

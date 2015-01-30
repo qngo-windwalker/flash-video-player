@@ -18,7 +18,7 @@ package com.player.views
 		private var videoView : ComponentView;
 		private var uiView : UIView;
 		private var debugView : DebugView;
-		private var ccView : ClosedCaptionView;
+//		private var ccView : ClosedCaptionView;
 		private var bkgd : Shape = new Shape();
 
 		//public function DropShadowFilter(distance:Num = 4.0, angle:Num = 45, color:uint = 0, alpha:Num = 1.0, blurX:Num = 4.0, blurY:Num = 4.0, strength:Num = 1.0, quality:int = 1, inner:Boolean = false, knockout:Boolean = false, hideObject:Boolean = false)

@@ -124,12 +124,12 @@ package com.player.views
 					playPauseBtn.gotoAndStop("PLAY");
 				break;
 				
-				case "closedCaptionOn" :
-					ccBtn.gotoAndStop("ON");
-				break;
-				
-				case "closedCaptionOff" :
-					ccBtn.gotoAndStop("OFF");
+				case "closedCaptionStateChange" :
+					if (PlayerModel(model).showClosedCaption) {
+						ccBtn.gotoAndStop("ON");
+					} else {
+						ccBtn.gotoAndStop("OFF");
+					}
 				break;
 				
 				case "stageResize" :
@@ -137,7 +137,7 @@ package com.player.views
 				break;
 			}
 		}
-		
+
 		private function volumeBtnClick(event : MouseEvent) : void 
 		{
 			switch (volumeBtn.currentFrameLabel)
